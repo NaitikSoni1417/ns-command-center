@@ -49,6 +49,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 15000,
 });
 
 // ─── Validation ───
@@ -337,10 +340,19 @@ app.get("/api/health", (req, res) => {
 });
 
 // ─── Start ───
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`\n  NS Command Center Backend`);
   console.log(`  ─────────────────────────`);
   console.log(`  Port:      ${PORT}`);
-  console.log(`  SMTP:      ${process.env.SMTP_USER || "not configured"}`);
-  console.log(`  Status:    ready\n`);
+  console.log(`  SMTP User: ${process.env.SMTP_USER || "NOT SET"}`);
+  console.log(`  SMTP Pass: ${process.env.SMTP_PASS ? "****" : "NOT SET"}`);
+  console.log(`  Status:    starting...\n`);
+
+  try {
+    await transporter.verify();
+    console.log(`  SMTP:      ✓ verified and ready\n`);
+  } catch (err) {
+    console.error(`  SMTP:      ✗ verification failed: ${err.message}`);
+    console.error(`  ⚠  Emails will fail to send. Check SMTP_USER and SMTP_PASS.\n`);
+  }
 });
