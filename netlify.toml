@@ -1,0 +1,28 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[functions]
+  directory = "netlify/functions"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Role = ["admin"]}
+  force = false
+
+[[redirects]]
+  from = "/modules"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/overview/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/request"
+  to = "/index.html"
+  status = 200
