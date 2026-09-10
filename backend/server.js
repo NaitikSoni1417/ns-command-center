@@ -297,7 +297,12 @@ app.post("/api/requests", async (req, res) => {
 
   } catch (err) {
     console.error("✗ Email send failed:", err.message);
-    res.status(500).json({ success: false, message: "Failed to send request. Please try again later." });
+    console.error("  Code:", err.code);
+    res.status(500).json({
+      success: false,
+      message: "Failed to send request. Please try again later.",
+      error: err.code || err.message,
+    });
   }
 });
 

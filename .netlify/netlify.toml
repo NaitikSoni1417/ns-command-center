@@ -1,15 +1,15 @@
+functionsDirectory = "/Users/naitiksoni/Desktop/admin-analytics-showcase/netlify/functions"
+functionsDirectoryOrigin = "config"
+redirectsOrigin = "config"
 plugins = []
 headers = []
 
-[functions]
-
-[functions."*"]
-
 [build]
 publish = "/Users/naitiksoni/Desktop/admin-analytics-showcase/dist"
-publishOrigin = "ui"
-commandOrigin = "ui"
+publishOrigin = "config"
+commandOrigin = "config"
 command = "npm run build"
+functions = "/Users/naitiksoni/Desktop/admin-analytics-showcase/netlify/functions"
 
 [build.environment]
 
@@ -25,9 +25,50 @@ command = "npm run build"
 
 [build.services]
 
+[functions]
+
+[functions."*"]
+
 [[redirects]]
-from = "/api/*"
-to = "https://ns-command-center.onrender.com/api/:splat"
+from = "/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+Role = ["admin"]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/modules"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/overview/*"
+to = "/index.html"
+status = 200.0
+force = false
+
+[redirects.query]
+
+[redirects.conditions]
+
+[redirects.headers]
+
+[[redirects]]
+from = "/request"
+to = "/index.html"
 status = 200.0
 force = false
 
