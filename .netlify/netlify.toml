@@ -13,7 +13,6 @@ commandOrigin = "ui"
 command = "npm run build"
 
 [build.environment]
-  VITE_API_URL = "https://ns-command-center.onrender.com"
 
 [build.processing]
 

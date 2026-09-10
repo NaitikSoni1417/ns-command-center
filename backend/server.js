@@ -8,15 +8,25 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // ─── CORS ───
+const ALLOWED_ORIGINS = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
+  "https://naitiksoni1417.netlify.app",
+  "https://admin-analytics-showcase.netlify.app",
+  "https://ns-analytics.netlify.app",
+  "https://dancing-kangaroo-e8c314.netlify.app",
+];
+
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "http://localhost:5175",
-    "https://naitiksoni1417.netlify.app",
-    "https://admin-analytics-showcase.netlify.app",
-  ],
-  methods: ["POST"],
+  origin: (origin, callback) => {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["POST", "GET", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
 }));
 
