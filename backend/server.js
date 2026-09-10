@@ -19,15 +19,16 @@ const ALLOWED_ORIGINS = [
 ];
 
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || ALLOWED_ORIGINS.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (ALLOWED_ORIGINS.indexOf(origin) !== -1) {
+      return callback(null, true);
     }
+    return callback(null, false);
   },
   methods: ["POST", "GET", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
+  credentials: true,
 }));
 
 app.use(express.json({ limit: "10kb" }));
