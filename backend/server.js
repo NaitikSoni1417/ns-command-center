@@ -337,7 +337,11 @@ app.post("/api/contact", async (req, res) => {
 
 // ─── Health Check ───
 app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
+  res.json({
+    status: "ok",
+    timestamp: new Date().toISOString(),
+    smtpConfigured: !!(process.env.SMTP_USER && process.env.SMTP_PASS),
+  });
 });
 
 // ─── Start ───
