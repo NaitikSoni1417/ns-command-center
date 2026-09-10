@@ -337,12 +337,25 @@ app.post("/api/contact", async (req, res) => {
 });
 
 // ─── Health Check ───
-app.get("/api/health", (req, res) => {
-  res.json({
+app.get("/api/health", async (req, res) => {
+  const result = {
     status: "ok",
     timestamp: new Date().toISOString(),
-    smtpConfigured: !!(process.env.SMTP_USER && process.env.SMTP_PASS),
-  });
+    smtpUser: process.env.SMTP_USER ? process.env.SMTP_USER.substring(0, 5) + "***" : "NOT SET",
+    smtpPassSet: !!process.env.SMTP_PASS,
+    smtpPassLength: process.env.SMTP_PASS ? process.env.SMTP_PASS.length : 0,
+  };
+
+  try {
+    await transporter.verify();
+    result.smtpStatus = "verified";
+  } catch (err) {
+    result.smtpStatus = "failed";
+    result.smtpError = err.message;
+    result.smtpCode = err.code;
+  }
+
+  res.json(result);
 });
 
 // ─── Start ───
