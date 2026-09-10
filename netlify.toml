@@ -6,15 +6,8 @@
   directory = "netlify/functions"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  conditions = {Role = ["admin"]}
-  force = false
-
-[[redirects]]
-  from = "/modules"
-  to = "/index.html"
+  from = "/api/*"
+  to = "/.netlify/functions/submit-request"
   status = 200
 
 [[redirects]]
@@ -23,6 +16,16 @@
   status = 200
 
 [[redirects]]
+  from = "/modules"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/request"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
   to = "/index.html"
   status = 200
